@@ -15,9 +15,7 @@
 
     <p v-for="item in postsList">{{ item }}</p>
   </div>
-  <!-- <% for(var i = 0; i < postsList.length; i++) { %>
-      <p><%= postsList[i] %></p>
-    <% } %> -->
+
 </body>
 
 </html>
@@ -29,7 +27,7 @@
     },
     methods: {
       fetchData () {
-        axios.get('/posts/list')
+        axios.get('/api/posts')
           .then(function(response) {
             vm.postsList = response.data.postsList;
           })
