@@ -7,26 +7,6 @@ router.get('/users', function(req, res, next) {
   res.send('respond with a resource');
 });
 
-
-
-/* POST create post 将数据保存到数据库的post表中 */
-router.post('/posts/create', function (req, res, next) {
-  var title = req.body.title;
-  var content = req.body.content;
-
-  var post = new PostModel();
-  post.title = title;
-  post.content = content;
-  post.save(function (err) {
-    if (err) {
-      res.json({success: false});
-    } else {
-      res.json({success: true});
-    }
-  });
-});
-
-
 /* GET posts lists 获取所有文章列表是从数据库查数据 */
 router.get('/posts', function (req, res, next) {
   PostModel.find({}, {}, function (err, posts) {
@@ -34,6 +14,51 @@ router.get('/posts', function (req, res, next) {
       res.json({ success: false });
     } else {
       res.json({ success: true, postsList: posts });
+    }
+  });
+});
+
+/* GET one post */
+router.get('/posts/:id', function(req, res, next) {
+  var id = req.params.id;
+
+  PostModel.findOne({ _id: id }, function(err, post) {
+    if (err) {
+      res.json({ success: false });
+    } else {
+      res.json({ success: true, post });
+    }
+  });
+});
+
+/* POST create post 将数据保存到数据库的post表中 */
+router.post('/posts', function(req, res, next) {
+  var title = req.body.title;
+  var content = req.body.content;
+
+  var post = new PostModel();
+  post.title = title;
+  post.content = content;
+  post.save(function(err) {
+    if (err) {
+      res.json({ success: false });
+    } else {
+      res.json({ success: true });
+    }
+  });
+});
+
+/* PATCH edit post */
+router.patch('/posts/:id', function(req, res, next) {
+  var id = req.params.id;
+  var title = req.body.title;
+  var content = req.body.content;
+
+  PostModel.findOneAndUpdate({ _id: id }, { title, content }, function(err) {
+    if (err) {
+      res.json({ success: false });
+    } else {
+      res.json({ success: true });
     }
   });
 });
