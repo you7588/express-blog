@@ -19,18 +19,27 @@
       content: ''
     },
     methods: {
-      submit() {
-        axios.post('/api/v1/posts', {
+      submit () {
+        axios.post('/api/v1/posts',
+          {
             title: vm.title,
             content: vm.content
           })
           .then(function(response) {
-            alert(JSON.stringify(response.data));
+            if (response.status !== 200) {
+              throw new Error('error!');
+            }
+
+            return response.data;
+          })
+          .then(function(data) {
+            // 注意这句
+            window.location = '/posts/show?id=' + data.post._id;
           })
           .catch(function(err) {
             alert(err);
           })
+        }
       }
-    }
   });
 </script>
