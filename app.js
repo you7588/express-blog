@@ -1,4 +1,5 @@
 require('./models/init');
+var expressLayouts = require('express-ejs-layouts');
 
 var express = require('express');
 var path = require('path');
@@ -16,6 +17,7 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+app.use(expressLayouts);
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
