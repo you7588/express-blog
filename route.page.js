@@ -3,6 +3,18 @@ var express = require('express');
 var router = express.Router();
 var PostModel = require('./models/post');
 
+/* GET signup page. */
+router.get('/signup', function(req, res, next) {
+  res.render('signup');
+  console.log('-------signup-page----');
+});
+
+/* GET signin page. */
+router.get('/signin', function (req, res, next) {
+  res.render('signin');
+  console.log('-------signin-page----');
+});
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
