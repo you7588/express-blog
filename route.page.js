@@ -1,5 +1,6 @@
 var marked = require('marked');
 var express = require('express');
+var config = require('./config');
 var router = express.Router();
 var PostModel = require('./models/post');
 
@@ -13,6 +14,12 @@ router.get('/signup', function(req, res, next) {
 router.get('/signin', function (req, res, next) {
   res.render('signin');
   console.log('-------signin-page----');
+});
+
+/* GET signout */
+router.get('/signout', function (req, res, next) {
+  res.clearCookie(config.cookieName, { path: '/' });
+  res.redirect('/');
 });
 
 /* GET home page. */
