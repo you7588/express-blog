@@ -13,7 +13,7 @@ router.post('/signup', function(req, res, next) {
   var rePass = req.body.rePass;
 
   if (pass !== rePass) {
-    return errorHandle(new Error('两次密码不对'));
+    return next(new Error('两次密码不对'));
   }
 
   var user = new UserModel();
@@ -36,11 +36,11 @@ router.post('/signin', function(req, res, next) {
 
   UserModel.findOne({ name }, function(err, user) {
     if (err || !user) {
-      return errorHandle(new Error('找不到用户'), next);
+      return next(new Error('找不到用户'));
     } else {
       var isOk = bcrypt.compareSync(pass, user.pass);
       if (!isOk) {
-        return errorHandle(new Error('密码不对'), next);
+        return next(new Error('密码不对'));
       }
 
       var authToken = user._id;
