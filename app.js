@@ -29,9 +29,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(auth.authUser);
 app.use('/', page);
-console.log('-------app.js----');
+console.log('==============app.js=================');
 app.use('/api/v1', api);
-console.log('-------app2.js----');
+console.log('===============app2.js================');
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -47,7 +47,7 @@ app.use(function(err, req, res, next) {
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
-  console.log('-------app2.js----');
+  console.log('===================render the app.js error page=====================');
   res.status(err.status || 500);
   res.render('error');
 });
