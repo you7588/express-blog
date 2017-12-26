@@ -8,10 +8,13 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var config = require('./config');
 var auth = require('./middlewares/auth');
+var connectMongodb = require('connect-mongo');
+var session = require('express-session');
 
 var page = require('./route.page');
 var api = require('./route.api');
 
+var MongoStore = new connectMongodb(session);
 var app = express();
 
 // view engine setup
@@ -26,6 +29,17 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser(config.cookieName));
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(
+  session({
+    secret: config.sessionSecret,
+    store: new MongoStore({
+      url: config.mongodbUrl
+    }),
+    resave: true,
+    saveUninitialized: true
+  })
+);
 
 app.use(auth.authUser);
 app.use('/', page);
